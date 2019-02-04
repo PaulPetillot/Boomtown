@@ -6,6 +6,8 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
+import { Form, Field } from 'react-final-form';
+import validate from './helpers/validation.js'
 /**
  * @TODO: Uncomment the following lines when authentication is added to the form
  *
@@ -21,23 +23,36 @@ import Typography from '@material-ui/core/Typography';
  */
 
 import styles from './styles';
+//import { red } from '@material-ui/core/colors';
 
 class AccountForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      formToggle: true
+      formToggle: true,
+      username : '',
+      email : '',
+      password : '',
+      errorMessage : ''
     };
   }
+  
 
   render() {
+    const onSubmit = async values => {
+      await (300);
+    };
     const { classes } = this.props;
-
     return (
+      <Form
+      onSubmit={onSubmit}
+      validate={validate}
+      render={({ handleSubmit, reset, submitting, pristine, values }) => (
       // @TODO: Wrap in Final Form <Form />
       <form
-        onSubmit={() => {
-          console.log('Submitted');
+        onSubmit={e => {
+          e.preventDefault();
+          console.log(this.state); 
         }}
         className={classes.accountForm}
       >
@@ -45,40 +60,47 @@ class AccountForm extends Component {
           <FormControl fullWidth className={classes.formControl}>
             <InputLabel htmlFor="fullname">Username</InputLabel>
             {/* @TODO: Wrap in a Final Form <Field /> */}
-            <Input
+            <Field
+              component={Input}
               id="fullname"
               type="text"
               inputProps={{
                 autoComplete: 'off'
               }}
-              value={''}
+              value={this.state.username}
+              onChange={e => this.setState({username : e.target.value})}
             />
+            
             {/* @TODO: Close Final Form <Field /> */}
           </FormControl>
         )}
         <FormControl fullWidth className={classes.formControl}>
           <InputLabel htmlFor="email">Email</InputLabel>
           {/* @TODO: Wrap in a Final Form <Field /> */}
-          <Input
+          <Field
+            component={Input}
             id="email"
             type="text"
             inputProps={{
               autoComplete: 'off'
             }}
-            value={''}
+            value={this.state.email}
+            onChange={e => this.setState({email : e.target.value})}
           />
           {/* @TODO: Close Final Form <Field /> */}
         </FormControl>
         <FormControl fullWidth className={classes.formControl}>
           <InputLabel htmlFor="password">Password</InputLabel>
           {/* @TODO: Wrap in a Final Form <Field /> */}
-          <Input
+          <Field
+            component={Input}
             id="password"
             type="password"
             inputProps={{
               autoComplete: 'off'
             }}
-            value={''}
+            value={this.state.password}
+            onChange={e => this.setState({password : e.target.value})}
           />
           {/* @TODO: Close Final Form <Field /> */}
         </FormControl>
@@ -121,8 +143,11 @@ class AccountForm extends Component {
         </FormControl>
         <Typography className={classes.errorMessage}>
           {/* @TODO: Display sign-up and login errors */}
+           { this.state.errorMessage && <p>Error here</p> }
         </Typography>
       </form>
+       )}
+       />
       // @TODO: Close Final Form <Form />
     );
   }

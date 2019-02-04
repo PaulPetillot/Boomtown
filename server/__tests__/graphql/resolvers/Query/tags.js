@@ -1,4 +1,4 @@
-const { ApolloError } = require('apollo-server-express');
+const { ApolloError } = require('apollo-server');
 const MockApp = require('../../../../__mocks__/mock-app');
 const MockTag = require('../../../../__mocks__/db/Tag');
 const resolvers = require('../../../../api/resolvers');
